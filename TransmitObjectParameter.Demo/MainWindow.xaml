@@ -1,0 +1,58 @@
+﻿<Window
+    x:Class="TransmitObjectParameter.Demo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:convert="clr-namespace:TransmitObjectParameter.Demo.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TransmitObjectParameter.Demo"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+    mc:Ignorable="d">
+    <Grid>
+        <GroupBox Header="传递对象参数">
+            <GroupBox.Resources>
+                <convert:UserMultiValueConverter x:Key="UserConvert" />
+            </GroupBox.Resources>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0,0,10,0" Orientation="Vertical">
+                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                        <TextBlock Width="80" Text="姓名" />
+                        <TextBox x:Name="TxtName" Width="200" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                        <TextBlock Width="80" Text="电话" />
+                        <TextBox x:Name="TxtPhone" Width="200" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                        <TextBlock Width="80" Text="邮箱" />
+                        <TextBox x:Name="TxtEMail" Width="200" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel>
+                    <Button Command="{Binding TransmitCommand}" Content="点击传递">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource UserConvert}">
+                                <Binding ElementName="TxtName" Path="Text" />
+                                <Binding ElementName="TxtPhone" Path="Text" />
+                                <Binding ElementName="TxtEMail" Path="Text" />
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel
+                    Width="240"
+                    Margin="10,0,0,0"
+                    Orientation="Vertical">
+                    <TextBlock Text="{Binding User.Name, StringFormat='姓名：\{0\}'}" />
+                    <TextBlock Text="{Binding User.Phone, StringFormat='电话：\{0\}'}" />
+                    <TextBlock Text="{Binding User.Email, StringFormat='邮箱：\{0\}'}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
